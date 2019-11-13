@@ -1,0 +1,276 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% load cart_template_tags %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+{% include 'navbar.html' %}
+
+<!-- POPPED UP MESSAGES INFO FOR ADDED PRODUCTS -->
+  <div id="message_container">
+ {% if messages %}
+
+      {% for message in messages %}
+      <div class="row-expand-lg d-flex justify-content-center" style="position:absolute;width:100%;z-index: 1">
+        <div class="col-sm-6 col-sm-offset-3">
+  <div class="alert alert-info text-center" style="border:none">
+  
+    {{ message }}
+    <!--<li>{% if message.tags %} class="{{ message.tags }}"{% endif%}>{{ message }}</li> -->
+      {% endfor %}
+
+</div>
+</div>
+</div>
+  {% endif %}
+</div>
+
+<body class="grey lighten-4">
+
+
+<div class="container my-5">
+	<h2 class="my-3 pl-0">
+		<span class="text-uppercase white-text z-depth-1" style="font-size:13px;border:1px solid #4285F4;background:#4285F4;border-radius:3px;padding:10px">Cart ({{ request.user|cart_item_count }})</span></h2>
+	<table id="cart" class="table table-hover table-condensed">
+
+    <thead>
+		<tr class="text-uppercase">
+		<th style="width:60%;font-weight:bold">Item</th>
+		<th style="width:10%;font-weight:bold">Price</th>
+		<th style="width:28%;font-weight:bold">Quantity</th>
+		<th style="width:22%;font-weight:bold" class="text-center">Subtotal</th>
+		<th style="width:10%"></th>
+	</tr>
+</thead>
+
+		
+	<tbody>
+		{% for order_item in object.items.all %}
+		<tr style="border:1px solid #ddd">
+		<td data-th="">
+		<div class="row">
+		<div class="col-sm-2 hidden-xs">
+			<a href="{{ order_item.item.get_absolute_url }}">
+			<img src="{{ MEDIA_URL }}{{ order_item.item.image.url }}" height="80"alt="..." class="img-responsive"/>
+			</a>
+		</div>
+		<div class="col-sm-10" id="product-text">
+		<a href="{{ order_item.item.get_absolute_url }}">
+		<h4 class="nomargin"><strong>{{ order_item.item.title }}</strong></h4>
+
+		<p>Product descritpiton Product descritpiton Product descritpiton Product descritpiton</p>
+		</a>
+	
+		<p>{% if order_item.variation.all %}<ul class="mr-1">{% for variation in order_item.variation.all %}<li>{{ variation.category|capfirst}} : {{ variation.title|capfirst }}</li>{% endfor %}</ul>{% endif %} </p>
+	
+	</div>
+	</div>
+	</td>
+		<td data-th="Price"><strong>&#8358 {{ order_item.item.price}}</strong></td>
+
+	<td data-th="Quantity">
+		<div class="quantity buttons_added">
+	<a href="{% url 'core:remove-single-item-from-cart' order_item.item.slug %}"><input type="button" value="-" class="minus"></a>
+		<input type="number" value="{{ order_item.quantity }}" class="input-text qty text">
+	<a href="{% url 'core:add-to-cart' order_item.item.slug %}">
+		<input type="button" value="+" class="plus"></a>
+	</div>
+
+	</td>
+		<td data-th="Subtotal" class="text-center"><strong> 
+		{% if order_item.item.discount_price %}
+			&#8358 {{ order_item.get_total_item_price }}
+			<br>
+			<span class="grey-text">
+				<del>&#8358 {{ order_item.item.discount_price }}</del></span>
+			<br>
+			<span class="badge badge-primary p-1">Saving &#8358 {{ order_item.get_amount_saved }}</span>
+		{% else %}
+			&#8358 {{ order_item.get_total_item_price }}
+		{% endif %}
+		</td>
+		
+		<td class="actions float-right" data-th="">
+		<a href="{{ order_item.item.get_remove_from_cart_url }}" class="btn btn-danger btn-sm mt-4"><i class="fa fa-trash"></i></a>
+	</td>
+
+	</tr>
+	{% empty %}
+	<tr>
+		<td colspan="5">
+		<img src="{{ MEDIA_URL }}{{'/static/' }}image/icons8-shopping-cart-64.png"
+            alt="">
+		<strong>Your cart is empty</strong>
+	</td>
+	</tr>
+	<tr>
+		<td colspan="5">
+			<a href="{% url 'core:homepage' %}" class="btn btn-warning"><i class="fa fa-angle-left"></i>Continue shopping</a>
+		</td>
+	</tr>
+	{% endfor %}
+</tbody>
+
+
+		{% if object.get_total %}
+	<tfoot>
+		<tr>
+		<td><a href="{% url 'core:homepage' %}" class="btn btn-warning"><i class="fa fa-angle-left"></i> Continue Shopping</a></td>
+		
+		<td colspan="2" class="hidden-xs"></td>
+		<td class="hidden-xs text-center font-weight-bold">Total 
+			&#8358 {{ object.get_total }}
+
+		</td>
+		<td><a href="{% url 'core:checkout' %}" class="btn btn-success btn-block">Checkout <i class="fa fa-angle-right"></i></a></td>
+	</tr>
+	</tfoot>
+	{% endif %}
+
+	
+	</table>
+</div>
+
+     
+
+
+<style type="text/css">
+	
+.table>tbody>tr>td, .table>tfoot>tr>td{
+    vertical-align: middle;
+}
+#product-text h4, p{
+	margin-left:0px;
+}
+tfoot .btn-success{
+	width:200px;
+}
+
+/* cart increament button */
+/* -- quantity box -- */
+
+.quantity {
+ display: inline-block; }
+
+.quantity .input-text.qty {
+ width: 35px;
+ height: 39px;
+ padding: 0 5px;
+ /*font-weight: bold;*/
+ text-align: center;
+ background-color: transparent;
+ border: 1px solid #efefef;
+}
+
+.quantity.buttons_added {
+ text-align: left;
+ position: relative;
+ white-space: nowrap;
+ vertical-align: top; }
+
+.quantity.buttons_added input {
+ display: inline-block;
+ margin: 0;
+ vertical-align: top;
+ box-shadow: none;
+}
+
+.quantity.buttons_added .minus,
+.quantity.buttons_added .plus {
+ padding: 7px 20px 8px;
+ height: 41px;
+ font-size:18px;
+ /*font-weight: bold;*/
+ background-color: #ffffff;
+ border: 1px solid #efefef;
+ cursor:pointer;}
+
+.quantity.buttons_added .minus {
+ border-right: 0; }
+
+.quantity.buttons_added .plus {
+ border-left: 0; }
+
+.quantity.buttons_added .minus:hover,
+.quantity.buttons_added .plus:hover {
+ background: #eeeeee; }
+
+.quantity input::-webkit-outer-spin-button,
+.quantity input::-webkit-inner-spin-button {
+ -webkit-appearance: none;
+ -moz-appearance: none;
+ margin: 0; }
+ 
+ .quantity.buttons_added .minus:focus,
+.quantity.buttons_added .plus:focus {
+ outline: none; }
+
+
+
+
+@media screen and (max-width: 768px) {
+	#product-text h4, p{
+	margin-left:0px;
+}
+tfoot .btn-success{
+	width:100%;
+}
+
+
+    table#cart tbody td .form-control{
+		width:20% !important;
+		display: inline !important;
+	}
+	.actions .btn{
+		width:36% !important;
+		margin:1.5em 0 !important;
+	}
+	
+	.actions .btn-info{
+		float:left !important;
+	}
+	.actions .btn-danger{
+		float:right !important;
+		width:60px !important;
+	}
+	
+	table#cart thead { display: none; }
+	table#cart tbody td { display: block; padding: .6rem; min-width:320px;}
+	table#cart tbody tr td:first-child { color: #fff; }
+	table#cart tbody td:before {
+		content: attr(data-th); font-weight: bold !important;
+		display: inline-block; width: 8rem !important;
+	}
+	
+	
+	
+	table#cart tfoot td{display:block; }
+	table#cart tfoot td .btn{display:block;}
+	
+}
+ 
+</style>
+
+
+
+
+
+ 
+  <!-- jQuery -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!-- Popper.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+
+<!-- Bootstrap -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.min.js"></script>
+
+<!-- Material Design for Bootstrap -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.16/js/mdb.min.js"></script>
+
+
+
+{% endblock content %}

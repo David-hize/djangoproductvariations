@@ -1,0 +1,443 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+
+{% include 'navbar.html' %}
+
+
+<!-- POPPED UP MESSAGES INFO FOR ADDED PRODUCTS -->
+  <div id="message_container">
+ {% if messages %}
+
+      {% for message in messages %}
+      <div class="row-expand-lg d-flex justify-content-center" style="position:absolute;width:100%;z-index: 1">
+        <div class="col-sm-6 col-sm-offset-3">
+  <div class="alert alert-info text-center" style="border:none">
+  
+    {{ message }}
+    <!--<li>{% if message.tags %} class="{{ message.tags }}"{% endif%}>{{ message }}</li> -->
+      {% endfor %}
+
+</div>
+</div>
+</div>
+  {% endif %}
+</div>
+
+
+<!--Main layout-->
+  <main class="mt-5 pt-4">
+    <div class="container dark-grey-text mt-5">
+
+      <!--Grid row-->
+      <div class="row wow fadeIn mb-5">
+
+        <!--Grid column-->
+        <div class="col-md-6 mb-4 photo-gallery">
+          <div class="item">
+
+          <img src="{{ MEDIA_URL }}{{ item.image.url }}" class="img-fluid" alt="" style="position:relative;top:-60px;left:30px;">
+
+      </div>
+
+
+        </div>
+        <!--Grid column-->
+
+
+        <!--Grid column-->
+        <div class="col-md-6 mb-4">
+
+          <!--Content-->
+          <div class="p-4">
+
+            <div class="mb-3">
+              <a href="">
+                <span class="badge purple mr-1">{{ object.get_category_display }}</span>
+              </a>
+            </div>
+
+            <h4 style="font-weight:400">{{ object.title }}</h4>
+
+            
+            <p class="lead">
+              {% if item.discount_price %}
+              <span class="mr-1">
+                <del>&#8358 {{ item.discount_price }}</del>
+              </span>
+              {% endif %}
+              {% if item.price %}
+              <span>&#8358 {{ item.price }}</span>
+              {% endif %}
+            </p>
+
+            <form method="POST" action="{{ item.get_add_to_cart_url }}">
+              {% csrf_token %}
+              <input class="btn btn-primary btn-md my-2 p" type="submit" value="Add to cart">
+
+              {% if object.variation_set.all %}
+              
+              {% if object.variation_set.sizes %}
+            <select class="form-control" name="size">
+              {% for items in object.variation_set.sizes %}
+              <option value="{{ items.title|lower }}">{{ items.title|capfirst }}</option>
+              {% endfor %}                      
+            </select>
+           {% endif %}
+
+           {% if object.variation_set.colors %}
+            <select class="form-control" name="color">
+              {% for items in object.variation_set.colors %}
+              <option value="{{ items.title|lower }}">{{ items.title|capfirst }}</option>
+              {% endfor %}                      
+            </select>
+           {% endif %}
+
+           {% endif %}
+
+            </form>
+            <!-- <a href="{{ item.get_add_to_cart_url }}" class="btn btn-primary btn-md my-2 p">Add to cart 
+              <i class="fas fa-shopping-cart ml-1"></i>
+            </a> -->
+            
+            <hr>
+
+          </div>
+          <!--Content-->
+
+        </div>
+        <!--Grid column-->
+     
+
+      </div>
+      <!--Grid row-->
+
+
+      <!-- Bootstrap Tabs -->
+      <ul class="nav nav-tabs d-flex justify-content-center" id="myTab" role="tablist">
+  
+  <li class="nav-item">
+    <a class="nav-link grey-text active" id="description-tab" data-toggle="tab" href="#description" role="tab" aria-controls="description"
+      aria-selected="false">Description</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link grey-text" id="review-tab" data-toggle="tab" href="#review" role="tab" aria-controls="review"
+      aria-selected="true">Reviews</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link grey-text" id="specification-tab" data-toggle="tab" href="#specification" role="tab" aria-controls="specification"
+      aria-selected="false">Specifications</a>
+  </li>
+</ul>
+
+
+
+
+
+<div class="tab-content mb-5" id="myTabContent" style="padding:20px">
+
+  <div class="tab-pane fade show active" id="description" role="tabpanel" aria-labelledby="description-tab">
+    {{ item.description|safe|urlize|linebreaks  }}
+  </div>
+
+    <div class="tab-pane fade" id="review" role="tabpanel" aria-labelledby="review-tab">
+    <a href="#" class="font-weight-bold black-text" style="font-size:14px">All reviews</a>
+    <hr>
+    <span class="text-primary">{{ user.username }}</span> <br>
+   <span class="grey-text" style="font-family:Roboto;font-size:13px">date</span>
+  </div>
+
+  <div class="tab-pane fade" id="specification" role="tabpanel" aria-labelledby="specification-tab">Etsy mixtape
+    wayfarers, ethical wes anderson tofu before they sold out mcsweeney's organic lomo retro fanny pack
+    lo-fi farm-to-table readymade. Messenger bag gentrify pitchfork tattooed craft beer, iphone skateboard
+    locavore carles etsy salvia banksy hoodie helvetica. DIY synth PBR banksy irony. Leggings gentrify
+    squid 8-bit cred pitchfork. Williamsburg banh mi whatever gluten-free, carles pitchfork biodiesel fixie
+    etsy retro mlkshk vice blog. Scenester cred you probably haven't heard of them, vinyl craft beer blog
+    stumptown. Pitchfork sustainable tofu synth chambray yr.</div>
+</div>
+
+      <hr>
+
+
+      <!--Grid row-->
+      <div class="row d-flex justify-content-center wow fadeIn">
+
+        <!--Grid column-->
+        <div class="col-md-6 text-center">
+
+          <h4 class="my-4 h4">Products related to this item</h4>
+
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus suscipit modi sapiente illo soluta odit
+            voluptates,
+            quibusdam officia. Neque quibusdam quas a quis porro? Molestias illo neque eum in laborum.</p>
+
+        </div>
+        <!--Grid column-->
+
+      </div>
+      <!--Grid row-->
+
+      <!--Grid row-->
+      <div class="row wow fadeIn">
+
+        <!--Grid column-->
+        <div class="col-lg-4 col-md-12 mb-4">
+
+            <!-- Card -->
+      <div class="align-items-center mt-4" id="card">
+        <!-- Card image -->
+        <div class="view overlay">
+          <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/11.jpg" class="card-img-top img-fluid"
+            alt="">
+          <a href="">
+            <div class="mask rgba-white-slight"></div>
+          </a>
+        </div>
+        <!-- Card image -->
+        <!-- Card content -->
+        <div class="card-body text-center">
+          <!-- Category & Title -->
+          <span class="grey-text">
+            <h5>Mobile Phone</h5>
+          </span>
+          <h5>
+            <strong>
+              <a href="" class="dark-grey-text">Tecno Camon CX</a>
+              <span class="badge badge-pill danger-color">NEW</span>
+            </strong>
+          </h5>
+          <!--Rating-->
+          <span class="rating">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+          </span>
+          <h4 class="font-weight-bold blue-text my-3">
+            <strong>&#8358 3900</strong>
+          </h4>
+        </div>
+        <!-- Card content -->
+      </div>
+
+        </div>
+        <!--Grid column-->
+
+        <!--Grid column-->
+        <div class="col-lg-4 col-sm-6 mb-4">
+
+          <!-- Card -->
+      <div class="align-items-center mt-4" id="card">
+        <!-- Card image -->
+        <div class="view overlay">
+          <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/12.jpg" class="card-img-top img-fluid"
+            alt="">
+          <a href="">
+            <div class="mask rgba-white-slight"></div>
+          </a>
+        </div>
+        <!-- Card image -->
+        <!-- Card content -->
+        <div class="card-body text-center">
+          <!-- Category & Title -->
+          <span class="grey-text">
+            <h5>Laptop</h5>
+          </span>
+          <h5>
+            <strong>
+              <a href="" class="dark-grey-text">HP Folio</a>
+              <span class="badge badge-pill danger-color">NEW</span>
+            </strong>
+          </h5>
+          <!--Rating-->
+          <span class="rating">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+          </span>
+          <h4 class="font-weight-bold blue-text my-3">
+            <strong>&#8358 3900</strong>
+          </h4>
+        </div>
+        <!-- Card content -->
+      </div>
+
+        </div>
+        <!--Grid column-->
+
+        <!--Grid column-->
+        <div class="col-lg-4 col-md-6 mb-4">
+
+           <!-- Card -->
+      <div class="align-items-center mt-4" id="card">
+        <!-- Card image -->
+        <div class="view overlay">
+          <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/13.jpg" class="card-img-top img-fluid"
+            alt="">
+          <a href="">
+            <div class="mask rgba-white-slight"></div>
+          </a>
+        </div>
+        <!-- Card image -->
+        <!-- Card content -->
+        <div class="card-body text-center">
+          <!-- Category & Title -->
+          <span class="grey-text">
+            <h5>Mobile Phone</h5>
+          </span>
+          <h5>
+            <strong>
+              <a href="" class="dark-grey-text">Iphone Xmas</a>
+              <span class="badge badge-pill danger-color">NEW</span>
+            </strong>
+          </h5>
+          <!--Rating-->
+          <span class="rating">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+          </span>
+          <h4 class="font-weight-bold blue-text my-3">
+            <strong>&#8358 3900</strong>
+          </h4>
+        </div>
+        <!-- Card content -->
+      </div>
+
+        </div>
+        <!--Grid column-->
+
+      </div>
+      <!--Grid row-->
+
+    </div>
+  </main>
+
+
+
+<style type="text/css">
+.nav .nav-item a{
+  font-family: Roboto;
+  font-size:20px;
+}
+.nav .nav-item .active{
+  color:#333 !important;
+  font-weight: 500;
+}
+#preview_img img{
+  height:90px;
+  width:100px;
+}
+
+
+/* cart increament button */
+input,
+textarea {
+  border: 1px solid #eeeeee;
+  box-sizing: border-box;
+  margin: 0;
+  outline: none;
+  padding: 10px;
+}
+
+input[type="button"] {
+  -webkit-appearance: button;
+  cursor: pointer;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+.input-group {
+  clear: both;
+  /*margin: 15px 0;*/
+  position: relative;
+}
+
+.input-group input[type='button'] {
+  background-color: #eeeeee;
+  min-width: 38px;
+  width: auto;
+  transition: all 300ms ease;
+}
+
+.input-group .button-minus,
+.input-group .button-plus {
+  font-weight: bold;
+  height: 38px;
+  padding: 0;
+  width: 38px;
+  position: relative;
+}
+
+.input-group .quantity_class {
+  position: relative;
+  height: 38px;
+  left: -6px;
+  text-align: center;
+  width: 62px;
+  display: inline-block;
+  font-size: 13px;
+  margin: 0 0 5px;
+  resize: vertical;
+}
+
+.button-plus {
+  left: -13px;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+  -webkit-appearance: none;
+}
+
+
+
+
+@media (max-width:768px) {
+#preview_img{
+  padding: 10px;
+}
+#preview_img img{
+  height: 70px;
+  width:100%;
+  margin-left:10px;
+}
+#preview_img_col{
+  width: 110px;
+
+}
+
+
+</style>
+
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.2/js/lightbox.min.js"></script>-->
+ 
+
+
+  <!-- jQuery -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!-- Popper.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+
+<!-- Bootstrap -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.min.js"></script>
+
+<!-- Material Design for Bootstrap -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.16/js/mdb.min.js"></script>
+
+
+
+{% endblock content %}

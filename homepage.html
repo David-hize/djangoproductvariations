@@ -1,0 +1,157 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+
+{% include 'navbar.html' %}
+
+<body class="grey lighten-4">
+
+
+  <!-- POPPED UP MESSAGES INFO FOR SUCCESSFULLY LOGGED IN -->
+  <div id="message_container">
+ {% if messages %}
+
+      {% for message in messages %}
+      <div class="row-expand-lg d-flex justify-content-center" style="position:absolute;width:100%;z-index: 1">
+        <div class="col-sm-6 col-sm-offset-3">
+  <div class="alert alert-info text-center" style="border:none">
+  
+    {{ message }} 
+    <!--<li>{% if message.tags %} class="{{ message.tags }}"{% endif%}>{{ message }}</li> -->
+      {% endfor %}
+
+</div>
+</div>
+</div>
+  {% endif %}
+</div>
+
+
+<!-- Men Shirts and Sleeve -->
+<!-- Section: Products v.3 -->
+<section class="text-center my-5" id="head-paragraph">
+
+  <!-- Section heading -->
+  <h2 class="h1-responsive font-weight-bold text-center my-3">Men Shirts and Sleeve</h2>
+  <!-- Section description -->
+  <p class="grey-text text-center w-responsive mx-auto mb-5">Men Shirts and Sleeves are avaliable in our shop, <strong>we deal on high quality fashion at a cheaper price.</strong> Kindly check on our menu for men's fashion to order the quality of your choice. <strong>Remember Shop is always open.</strong></p>
+
+     <!-- Search Form For 768px Screen -->
+    <form>
+       <div class="input-group search-box my-5" style="width:60%;margin-left:auto;margin-right: auto" id="hidden-searchbox">                
+          <input type="text" id="search" class="form-control" placeholder="Search here...">
+           <span class="input-group-btn">
+           <button type="button" class="btn navbar-dark default-color"><i class="fa fa-search"></i></button>
+            </span>
+         </div>
+    </form>
+
+  <!-- Grid row -->
+  <div class="row align-items-center" style="width:85%;margin-left:auto;margin-right: auto">
+
+{% for item in object_list %}
+    <!-- Grid column -->
+    <div class="col-lg-3 col-md-6 mb-lg-0 mb-4" id="col-card"> <!--col-lg-3 col-md-6 mb-lg-0 mb-4-->
+      <!-- Card -->
+      <div class="card align-items-center" id="card">
+        <!-- Card image -->
+        <div class="view overlay">
+          
+          <img src="{{ MEDIA_URL }}{{ item.image.url }}" class="card-img-top"
+            alt="">
+          <a href="{{ item.get_absolute_url }}">
+            <div class="mask rgba-white-slight"></div>
+          </a>
+        </div>
+        <!-- Card image -->
+        <!-- Card content -->
+        <div class="card-body text-center">
+          <!-- Category & Title -->
+          <span class="grey-text">
+            <h5>{{ item.get_category_display }}</h5>
+          </span>
+          <h5>
+            <strong>
+              <a href="{{ item.get_absolute_url }}" class="dark-grey-text" id="product-nametxt">{{ item.title }}</a><br>
+
+              <span class="badge badge-pill {{ item.get_label_display }}-color">NEW</span>
+            </strong>
+          </h5>
+
+          
+          <h5 class="font-weight-light blue-text my-3">
+            {% if item.discount_price %}
+            <strong class="black-text mr-3"><del>&#8358 {{ item.discount_price }}</del></strong>
+            {% endif %}
+            {% if item.price %}
+            <strong>&#8358 {{ item.price }}</strong>
+            {% endif %}
+          </h5>
+          
+        </div>
+        <!-- Card content -->
+      </div>
+      <!-- Card -->
+    </div>
+    <!-- Grid column -->
+    {% endfor %}
+
+  </div>
+  <!-- Grid row -->
+
+</section>
+<!-- Section: Products v.3 -->
+
+<!-- Pagination -->
+
+{% if is_paginated %}
+<nav aria-label="Page navigation example">
+  <ul class="pagination pagination-circle pg-blue justify-content-center">
+  
+    {% if page_obj.has_previous %}
+    <li class="page-item">
+      <a class="page-link" href="?page={{ page_obj.previous_page_number }}"aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+        <span class="sr-only">Previous</span>
+      </a>
+    </li>
+    {% endif %}
+
+    <li class="page-item active">
+      <a class="page-link" href="?page={{ page_obj.number }}">{{ page_obj.number }}
+        <span class="sr-only">(current)</span>
+      </a>
+    </li>
+    
+
+     {% if page_obj.has_next %}
+    <li class="page-item">
+      <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+        <span class="sr-only">Next</span>
+      </a>
+    </li>
+    {% endif %}
+
+  </ul>
+</nav>
+{% endif %}
+
+
+ 
+  <!-- jQuery -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!-- Popper.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+
+<!-- Bootstrap -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.min.js"></script>
+
+<!-- Material Design for Bootstrap -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.16/js/mdb.min.js"></script>
+
+
+{% endblock content %}
