@@ -1,0 +1,81 @@
+{% load cart_template_tags %}
+
+<!--Navbar -->
+<nav class="mb-1 navbar navbar-expand-lg navbar-dark default-color">
+  <a class="navbar-brand" href="{% url 'core:homepage' %}">Xstore</a>
+  <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-333"
+    aria-controls="navbarSupportedContent-333" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button> -->
+  <div class="collapse navbar-collapse" id="navbarSupportedContent-333">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="{% url 'core:homepage' %}">Home
+          <span class="sr-only">(current)</span>
+        </a>
+      </li>
+      <!-- <li class="nav-item">
+        <a class="nav-link" href="#">Features</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Pricing</a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-333" data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false">Dropdown
+        </a>
+        <div class="dropdown-menu dropdown-default" aria-labelledby="navbarDropdownMenuLink-333">
+          <a class="dropdown-item" href="#">Action</a>
+          <a class="dropdown-item" href="#">Another action</a>
+          <a class="dropdown-item" href="#">Something else here</a>
+        </div>
+      </li> -->
+    </ul>
+
+
+    <ul class="navbar-nav ml-auto nav-flex-icons">
+      <!-- <li class="nav-item">
+        <a class="nav-link waves-effect waves-light">
+          <i class="fab fa-twitter"></i>
+        </a>
+      </li> -->
+  {% if request.user.is_authenticated %}
+      <li class="nav-item">
+        <a href="{% url 'core:order-summary' %}" class="nav-link waves-effect waves-light">
+          <i class="fas fa-cart-plus"><span class="badge" style="font-family: 'Open Sans', sans-serif;background:#eb5844">{{ request.user|cart_item_count }}</span></i>
+        </a>
+      </li>
+       <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-333" data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false">
+          <i class="fas fa-user"></i>
+        </a>
+        <div class="dropdown-menu dropdown-menu-right dropdown-default"
+          aria-labelledby="navbarDropdownMenuLink-333">
+          <a class="dropdown-item" href="#">Action</a>
+          <a class="dropdown-item" href="#">Another action</a>
+          <a class="dropdown-item" href="#">Something else here</a>
+        </div>
+      </li> 
+      <li class="nav-item">
+        <a href="{% url 'account_logout' %}" class="nav-link waves-effect waves-light">
+          <span class="clearfix d-none d-sm-inline-block">Logout</span>
+        </a>
+      </li>
+  {% else %}
+      <li class="nav-item">
+        <a href="{% url 'account_login' %}" class="nav-link waves-effect waves-light">
+          <span class="clearfix d-none d-sm-inline-block">Login</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="{% url 'account_signup' %}" class="nav-link waves-effect waves-light">
+          <span class="clearfix d-none d-sm-inline-block">Signup</span>
+        </a>
+      </li>
+      
+  {% endif %}
+    </ul>
+  </div>
+</nav>
+<!--/.Navbar -->

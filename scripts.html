@@ -1,0 +1,190 @@
+<!-- Navbar Toggle -->
+<script type="text/javascript">
+  $(document).ready(function(){
+    var dropdown = $(".navbar-right .dropdown");
+    var toogleBtn = $(".navbar-right .dropdown-toggle");
+    
+    // Toggle search and close icon for search dropdown
+    dropdown.on("show.bs.dropdown", function(e){
+      toogleBtn.toggleClass("hide");
+    });
+    dropdown.on("hide.bs.dropdown", function(e){
+      toogleBtn.addClass("hide");
+      toogleBtn.first().removeClass("hide");
+    });
+  });
+</script>
+
+<!-- Form Validation -->
+<!-- <script type="text/javascript">
+  (function() {
+'use strict';
+window.addEventListener('load', function() {
+// Fetch all the forms we want to apply custom Bootstrap validation styles to
+var forms = document.getElementsByClassName('needs-validation');
+// Loop over them and prevent submission
+var validation = Array.prototype.filter.call(forms, function(form) {
+form.addEventListener('submit', function(event) {
+if (form.checkValidity() === false) {
+event.preventDefault();
+event.stopPropagation();
+}
+form.classList.add('was-validated');
+}, false);
+});
+}, false);
+})();
+</script> -->
+
+<!-- POPUP MESSAGES AND DISAPPEAR  -->
+<script>
+$(document).ready(function(){
+    $('[data-toggle="popover"]').popover();   
+});
+</script>
+
+<script type="text/javascript">
+  var message = document.getElementById("message_container");
+  setTimeout(function(){
+    message.style.display = "none";
+  }, 3000);
+</script>
+
+<!-- Login oggle password hide and show -->
+<!-- <script type="text/javascript">
+  $(document).on('click', '.toggle-password', function() {
+
+    $(this).toggleClass("fa-eye fa-eye-slash");
+    
+    var input = $("#defaultForm-pass");
+    input.attr('type') === 'password' ? input.attr('type','text') : input.attr('type','password')
+});
+</script> -->
+<!-- Register password1 oggle password hide and show -->
+<!-- <script type="text/javascript">
+  $(document).on('click', '.toggle-password', function() {
+
+    $(this).toggleClass("fa-eye fa-eye-slash");
+    
+    var input = $("#validationCustomUsername2");
+    input.attr('type') === 'password' ? input.attr('type','text') : input.attr('type','password')
+});
+</script>
+ -->
+
+<!-- Register password confirm oggle password hide and show -->
+<!-- <script type="text/javascript">
+  $(document).on('click', '.toggle-password', function() {
+
+    $(this).toggleClass("fa-eye fa-eye-slash");
+    
+    var input = $("#validationCustom032");
+    input.attr('type') === 'password' ? input.attr('type','text') : input.attr('type','password')
+});
+</script> -->
+
+<!-- INDEX DEMAIL SLIDE RIGHT CONTENT -->
+<!-- <script type="text/javascript">
+  var $animation_elements = $('.animation-element');
+var $window = $(window);
+
+function check_if_in_view() {
+  var window_height = $window.height();
+  var window_top_position = $window.scrollTop();
+  var window_bottom_position = (window_top_position + window_height);
+ 
+  $.each($animation_elements, function() {
+    var $element = $(this);
+    var element_height = $element.outerHeight();
+    var element_top_position = $element.offset().top;
+    var element_bottom_position = (element_top_position + element_height);
+ 
+    //check to see if this current container is within viewport
+    if ((element_bottom_position >= window_top_position) &&
+        (element_top_position <= window_bottom_position)) {
+      $element.addClass('in-view');
+    } else {
+      $element.removeClass('in-view');
+    }
+  });
+}
+
+$window.on('scroll resize', check_if_in_view);
+$window.trigger('scroll');
+</script> -->
+
+
+
+
+
+
+<!-- <script type="text/javascript">
+  // Remove Items From Cart
+$('a.remove').click(function(){
+  event.preventDefault();
+  $( this ).parent().parent().parent().hide( 400 );
+ 
+})
+
+// Just for testing, show all items
+  $('a.btn.continue').click(function(){
+    $('li.items').show(400);
+  }) 
+</script> -->
+
+<!-- cart checkbox validation form -->
+<!-- <script type="text/javascript" language="JavaScript">
+
+function checkCheckBoxes(theForm) {
+  if (
+  theForm.small_size.checked == false &&
+  theForm.medium_size.checked == false &&
+  theForm.large_size.checked == false &&
+  theForm.exlarge_size.checked == false) 
+  {
+    alert ('You didn\'t choose any size!');
+    return false;
+  } else {  
+    return true;
+  }
+}
+
+</script> 
+ -->
+<!-- cart increament button -->
+<!-- <script type="text/javascript">
+  function incrementValue(e) {
+  e.preventDefault();
+  var fieldName = $(e.target).data('field');
+  var parent = $(e.target).closest('div');
+  var currentVal = parseInt(parent.find('input[name=' + fieldName + ']').val(), 10);
+
+  if (!isNaN(currentVal)) {
+    parent.find('input[name=' + fieldName + ']').val(currentVal + 1);
+  } else {
+    parent.find('input[name=' + fieldName + ']').val(0);
+  }
+}
+
+function decrementValue(e) {
+  e.preventDefault();
+  var fieldName = $(e.target).data('field');
+  var parent = $(e.target).closest('div');
+  var currentVal = parseInt(parent.find('input[name=' + fieldName + ']').val(), 10);
+
+  if (!isNaN(currentVal) && currentVal > 0) {
+    parent.find('input[name=' + fieldName + ']').val(currentVal - 1);
+  } else {
+    parent.find('input[name=' + fieldName + ']').val(0);
+  }
+}
+
+$('.input-group').on('click', '.button-plus', function(e) {
+  incrementValue(e);
+});
+
+$('.input-group').on('click', '.button-minus', function(e) {
+  decrementValue(e);
+});
+
+</script> -->
