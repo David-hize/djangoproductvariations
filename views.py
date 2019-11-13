@@ -114,12 +114,8 @@ def add_to_cart(request,slug):
     
 	if order_item_qs.exists():
 		order_item = order_item_qs.first()
-		# for order_item in order_item_qs:
-		 # order_item = order_item_qs.first()
 		order_item.quantity += 1
 		order_item.save()
-		#print(order_item_qs)
-
 	else:
 		order_item = OrderItem.objects.create(
 			item=item,
@@ -129,7 +125,6 @@ def add_to_cart(request,slug):
 		order_item.variation.add(*item_var)
 		order_item.save()
 
-	
 	order_qs = Order.objects.filter(user=request.user, ordered=False)
 	if order_qs.exists():
 		order = order_qs[0]
